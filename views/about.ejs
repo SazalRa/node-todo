@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>About</title>
+        <link rel='stylesheet' href='/stylesheets/style.css' />
+    </head>
+    <body>
+    <% include templates/header.ejs %>
+        <h1>About</h1>
+        <p> My name is <%= name %></p> I love hangout with friends
+        <h3>Category : <span> <%= videoData.categoryName  %> </span></h3>
+        <ul>
+            <% videoData.categories.forEach(function(item){ %>
+            <li> <%= item.categoryName %> </li>
+            <% }) %>
+
+
+        </ul>
+    </body>
+</html>

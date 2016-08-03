@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>About</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+<body>
+<% include templates/header.ejs %>
+<h1>Blog list</h1>
+<table cellpadding="10">
+    <tr>
+        <td>Id</td>
+        <td>Title</td>
+        <td>Description</td>
+        <td>Author</td>
+    </tr>
+    <% articles.forEach(function(item){ %>
+    <tr>
+        <td><%= item.id %></td>
+        <td><%= item.title %></td>
+        <td><%= item.body %></td>
+        <td><%= item.author %></td>
+    </tr>
+    <% }) %>
+</table>
+<form action="/blog" method="post">
+    Title      : <input type ="title" name="title" id="title"><br /><br/>
+    Description: <input type="text" name="description" id="description"><br /><br />
+    Author     : <input type="text" name="author" id="author"><br /><br />
+    <input type="submit" name="submit" value="submit" />
+
+</form>
+
+</body>
+</html>
