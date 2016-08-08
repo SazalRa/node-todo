@@ -1,3 +1,4 @@
+var http = require('http');
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -7,9 +8,30 @@ var bodyParser = require('body-parser');
 var routes = require('./routes/index');
 var about = require('./routes/about') ;
 var blog = require('./routes/blog');
+var chat = require('./routes/chat.js');
+
+
 //var bookshelf = require('./routes/bookshelf');
 
 var app = express();
+app.use(express.static(__dirname + '/bower_components'));
+
+var server = require('http').createServer(app);
+var io = require('socket.io').listen(server);
+
+server.listen(8080);
+
+io.on('connection', function(client) {
+  console.log('Client connected...');
+
+
+  client.on('join',function(data){
+    //client.broadcast.emit = data ;
+    io.emit('message',data);
+  });
+
+});
+
 // DB CONFIG
 var dbConfig = {
   client : 'mysql',
@@ -45,6 +67,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', routes);
 app.use('/about',about);
 app.use('/blog',blog);
+app.use('/chat',chat);
+
+
+
+app.use(express.static(path.join(__dirname, 'public')));
 
 //app.use('/article',article)
 

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Chat</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+<body>
+    <% include templates/header.ejs %>
+    <h1>Chat</h1>
+
+    <div id="future"></div>
+    <form id="form" id="chat_form">
+        <input id="chat_input" type="text">
+        <input id="submit" type="submit" value="Send">
+    </form>
+    <textarea id="message_all"></textarea>
+</body>
+<script   src="https://code.jquery.com/jquery-2.2.4.min.js"   integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="   crossorigin="anonymous"></script>
+<script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+<script>
+    var socket = io.connect('192.168.0.111:8080');
+    var messages = [];
+    socket.on('connect', function(data) {
+        socket.emit('join', 'Hello World from client');
+
+    });
+    $('#submit').click(function(e){
+        e.preventDefault();
+        var message = $('#chat_input').val();
+        socket.emit('join', message);
+       // socket.emit('messages', message);
+    });
+    socket.on('message',function(data){
+
+        if(data) {
+            messages.push(data);
+            var html = '';
+            for (var i = 0; i < messages.length; i++) {
+                html += messages[i] + '\n';
+            }
+            $('#message_all').val(html) ;
+        }else{
+            alert('something went wrong');
+        }
+
+        console.log("server said :"+data);
+    });
+</script>
+
+
+
+</html>
